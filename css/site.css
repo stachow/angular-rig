@@ -1,0 +1,13 @@
+ .btn-tall{
+     height: 100px;
+}
+
+.question-window {
+     height: 450px;
+     overflow-y: hidden;
+}
+
+.container {
+     width: 780px;
+}
+ 

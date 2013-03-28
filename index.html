@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-cloak>
+  <head>
+    <meta charset="utf-8">
+    <title>Angular Rig</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/flat-ui.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+
+        <h1>Aspects Rig</h1>
+        
+        <div ng-controller="QuestionCtrl">
+            
+            <div cc-scroll="scrollTop" class="question-window">
+                <div ng-repeat="question in data">
+                    <h4>{{question.id + 1}}) {{question.question}}</h4>
+                    <cc-question-buttons cc-question-id="question.id" cc-submit-answer-fn="submitAnswer" cc-disabled="question.disabled" />
+                </div>
+            </div>
+
+            <cc-progress cc-progress-data="data"></cc-progress>
+            
+            <hr/>
+            <p style="margin-top: 100px">
+                
+                <small class="muted">Data:<br/>{{data.dataToSubmit()}}</small>
+            </p>
+                                     
+         </div>
+    </div>
+      
+    <script src="js/underscore.min.js"></script>
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/app/data.js"></script>
+    <script src="js/app/app.js"></script>
+
+    <!--[if lt IE 8]>
+      <script src="js/icon-font-ie7.js"></script>
+      <script src="js/icon-font-ie7-24.js"></script>
+    <![endif]-->
+  </body>
+</html>
