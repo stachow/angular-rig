@@ -1,11 +1,9 @@
-function QuestionCtrl($scope) {
+function QuestionCtrl($scope, messageService, dataService) {
+
     $scope.settings = {
         scrollEvery:    3,
         scrollLength:   450
     };
-    $scope.scrollTop = 0;
-    $scope.data = data;
-    $scope.data[0].disabled = false;
 
     $scope.doScroll = function (id) {
         if (!((id+1) % $scope.settings.scrollEvery)) {
@@ -24,11 +22,26 @@ function QuestionCtrl($scope) {
         $scope.data[id].answer = answer;
         $scope.handleDisabled(id);
         $scope.doScroll(id);
+        messageService.send($scope.data.dataToSubmit());
     };
 
+    $scope.recieveMessage = function (msg) {
+        //console.log(msg);
+    };
+
+    // init
+    $scope.scrollTop = 0;
+    $scope.data = dataService;
+    $scope.data[0].disabled = false;
+    messageService.listen($scope.recieveMessage);
 }
 
 angular.module('app', [])
+
+.factory('dataService', dataService)
+
+.factory('messageService', messageService)
+
 .directive('ccScroll', function () {
     return {
         restrict: 'A',
@@ -39,6 +52,7 @@ angular.module('app', [])
         }
     }
 })
+
 .directive('ccProgress', function () {
     return {
         restrict: 'E',
@@ -46,31 +60,39 @@ angular.module('app', [])
         templateUrl: 'templates/progress.html',
         link: function (scope, element, attrs) {
             scope.$watch(attrs.ccProgressData, function (newval, oldval) {
-                _.each(_.range(5), function (i) { 
+                _.each(_.range(5), function (i) {
                     var thisAnswerTypeCount = _.filter(newval, function (question) { return question.answer === (i + 1) }).length;
-                    scope["s" + (i + 1)] =  (thisAnswerTypeCount * 2) + "%";
+                    scope["s" + (i + 1)] = (thisAnswerTypeCount * 2) + "%";
                 });
             }, true);
         }
     }
 })
+
 .directive('ccQuestionButtons', function () {
     return {
         restrict: 'E',
         replace: true,
-        scope: { id: "=ccQuestionId", submit: "=ccSubmitAnswerFn", disabled: "=ccDisabled" },
+        scope: { question: "=ccQuestion", submit: "=ccSubmitAnswerFn" },
         templateUrl: 'templates/questionButtons.html',
         link: function (scope, element, attrs) {
             var $btns = $(element).find('a');
 
+            scope.options = [
+                {text: 'Dislike very much', class: 'danger'}, 
+                {text: 'Dislike', class: 'warning'}, 
+                {text: 'Does not matter', class: 'info'}, 
+                {text: 'Like', class: 'primary'}, 
+                {text: 'Like very much', class: 'success'}
+            ];
+
             $btns.on('click', function () {
-                if (scope.disabled) {
+                if (scope.question.disabled) {
                     return;
                 };
                 var thisAnswer = $(this).data("answer");
-                scope.$apply(function () { scope.submit(scope.id, thisAnswer) });
+                scope.$apply(function () { scope.submit(scope.question.id, thisAnswer) });
                 $btns.off('click');
-                $btns.not('[data-answer="' + thisAnswer + '"]').removeClass('btn-danger btn-warning btn-info btn-primary btn-success');
             });
         }
     }

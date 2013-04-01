@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/flat-ui.css" rel="stylesheet">
-    <link href="css/site.css" rel="stylesheet
+    <link href="css/site.css" rel="stylesheet">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
@@ -22,15 +22,14 @@
             <div cc-scroll="scrollTop" class="question-window">
                 <div ng-repeat="question in data">
                     <h4>{{question.id + 1}}) {{question.question}}</h4>
-                    <cc-question-buttons cc-question-id="question.id" cc-submit-answer-fn="submitAnswer" cc-disabled="question.disabled" />
+                    <cc-question-buttons cc-question="question" cc-submit-answer-fn="submitAnswer" />
                 </div>
             </div>
 
-            <cc-progress cc-progress-data="data"></cc-progress>
+            <cc-progress cc-progress-data="data" />
             
             <hr/>
             <p style="margin-top: 100px">
-                
                 <small class="muted">Data:<br/>{{data.dataToSubmit()}}</small>
             </p>
                                      
@@ -39,10 +38,12 @@
       
     <script src="js/underscore.min.js"></script>
     <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="http://cdn.pubnub.com/pubnub-3.4.min.js"></script>
     <script src="js/angular.js"></script>
-    <script src="js/app/data.js"></script>
+    <script src="js/app/messageService.js"></script>
+    <script src="js/app/dataService.js"></script>
     <script src="js/app/app.js"></script>
-
+    
     <!--[if lt IE 8]>
       <script src="js/icon-font-ie7.js"></script>
       <script src="js/icon-font-ie7-24.js"></script>

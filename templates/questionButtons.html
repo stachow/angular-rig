@@ -1,17 +1,17 @@
-<div class="row demo-row">
+<div class="row demo-row
     <div class="span2">
-        <a class="btn btn-large btn-block btn-danger btn-tall"    ng-disabled="disabled" data-answer="1"><span class="fui-checkround-24"></span><br /><br />Dislike very much</a>
+        <a class="btn btn-large btn-block btn-tall" ng-class="{'btn-danger': !question.disabled || question.answer == 1}"    ng-disabled="question.disabled" data-answer="1"><span class="fui-checkround-24"></span><br /><br />Dislike very much</a>
     </div>
     <div class="span2">
-        <a class="btn btn-large btn-block btn-warning btn-tall"   ng-disabled="disabled" data-answer="2"><span class="fui-checkround-24"></span><br /><br />Dislike</a>
+        <a class="btn btn-large btn-block btn-tall" ng-class="{'btn-warning': !question.disabled || question.answer == 2}"   ng-disabled="question.disabled" data-answer="2"><span class="fui-checkround-24"></span><br /><br />Dislike</a>
     </div>
         <div class="span2">
-        <a class="btn btn-large btn-block btn-info btn-tall"      ng-disabled="disabled" data-answer="3"><span class="fui-checkround-24"></span><br /><br />Does not matter</a>
+        <a class="btn btn-large btn-block btn-tall" ng-class="{'btn-info': !question.disabled || question.answer == 3}"      ng-disabled="question.disabled" data-answer="3"><span class="fui-checkround-24"></span><br /><br />Does not matter</a>
     </div>
     <div class="span2">
-        <a class="btn btn-large btn-block btn-primary btn-tall"   ng-disabled="disabled" data-answer="4"><span class="fui-checkround-24"></span><br /><br />Like</a>
+        <a class="btn btn-large btn-block btn-tall" ng-class="{'btn-primary': !question.disabled || question.answer == 4}"   ng-disabled="question.disabled" data-answer="4"><span class="fui-checkround-24"></span><br /><br />Like</a>
     </div>
     <div class="span2">
-        <a class="btn btn-large btn-block btn-success btn-tall"   ng-disabled="disabled" data-answer="5"><span class="fui-checkround-24"></span><br /><br />Like very much</a>
+        <a class="btn btn-large btn-block btn-tall" ng-class="{'btn-success': !question.disabled || question.answer == 5}"   ng-disabled="question.disabled" data-answer="5"><span class="fui-checkround-24"></span><br /><br />Like very much</a>
     </div>
 </div>
