@@ -12,7 +12,7 @@ angular.module('app.services', [])
             {
                 id: i,
                 question: question,
-                answer: 0,
+                answer: -1,
                 disabled: true
             }
         );

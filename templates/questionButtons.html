@@ -1,7 +1,7 @@
 <div class="row demo-row">
     <div class="span2" ng-repeat="button in buttons">
-        <a  class="btn btn-large btn-block btn-tall" 
-            ng-class="(!question.disabled || question.answer == ($index + 1)) && ('btn-' + button.class) || ''"    
+        <a  href="" class="btn btn-large btn-block btn-tall" 
+            ng-class="(!question.disabled || question.answer == ($index)) && ('btn-' + button.class) || ''"    
             ng-disabled="question.disabled" 
             ng-click="localClick($index)">
             <span class="fui-checkround-24"></span>

@@ -17,10 +17,11 @@ angular.module('app.directives', [])
         replace: true,
         templateUrl: 'templates/progress.html',
         link: function (scope, element, attrs) {
+            scope.vals = [];
             scope.$watch(attrs.ccProgressData, function (value) {
                 _.each(_.range(5), function (i) {
-                    var thisAnswerTypeCount = _.filter(value, function (question) { return question.answer === (i + 1) }).length;
-                    scope["s" + (i + 1)] = (thisAnswerTypeCount * 2) + "%";
+                    var thisAnswerTypeCount = _.filter(value, function (question) { return question.answer === i }).length;
+                    scope.vals[i] = (thisAnswerTypeCount * 2) + "%";
                 });
             }, true);
         }
@@ -44,10 +45,7 @@ angular.module('app.directives', [])
             ];
 
             scope.localClick = function (index) {
-                if (scope.question.disabled) {
-                    return;
-                };
-                scope.submit(scope.question.id, index + 1);
+                !scope.question.disabled && scope.submit(scope.question.id, index);
             };
         }
     }
