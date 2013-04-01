@@ -1,0 +1,20 @@
+<h1>Aspects Rig</h1>
+
+<p>
+    <a href="#/">Home</a>
+</p>                
+
+<div cc-scroll="scrollTop" class="question-window">
+    <div ng-repeat="question in data">
+        <h4>{{question.id + 1}}) {{question.question}}</h4>
+        <cc-question-buttons cc-question="question" cc-submit-answer-fn="submitAnswer"></cc-question-buttons>
+    </div>
+</div>
+
+<cc-progress cc-progress-data="data"></cc-progress>
+            
+<hr/>
+<p style="margin-top: 100px">
+    <small class="muted">Data:<br/>{{data.dataToSubmit()}}</small>
+</p>
+                                     

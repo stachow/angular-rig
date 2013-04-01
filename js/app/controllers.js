@@ -1,3 +1,7 @@
+function HomeCtrl() { 
+
+}
+
 function QuestionCtrl($scope, messageService, dataService) {
 
     $scope.settings = {
@@ -34,4 +38,23 @@ function QuestionCtrl($scope, messageService, dataService) {
     $scope.data = dataService;
     $scope.data[0].disabled = false;
     messageService.listen($scope.recieveMessage);
+}
+
+function AnswersCtrl($scope, messageService) {
+
+    $scope.data = [];
+
+    $scope.buttonClasses = ['btn-danger', 'btn-warning', 'btn-info', 'btn-primary', 'btn-success'];
+
+    var filterAnswered = function (data) { 
+        return _.filter(data, function(item) {return item[1] >=0 }) 
+    };
+
+    var recieveMessage = function (msg) {
+        console.log(msg);
+        $scope.$apply(function () { $scope.data = filterAnswered(msg); });
+    };
+    messageService.listen(recieveMessage);
+
+
 }
