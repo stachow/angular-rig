@@ -46,8 +46,8 @@ angular.module('app', [])
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-            scope.$watch(attrs.ccScroll, function (newval, oldval) {
-                $(element).animate({ scrollTop: newval }, 600);
+            scope.$watch(attrs.ccScroll, function (value) {
+                $(element).animate({ scrollTop: value }, 600);
             }, true);
         }
     }
@@ -59,9 +59,9 @@ angular.module('app', [])
         replace: true,
         templateUrl: 'templates/progress.html',
         link: function (scope, element, attrs) {
-            scope.$watch(attrs.ccProgressData, function (newval, oldval) {
+            scope.$watch(attrs.ccProgressData, function (value) {
                 _.each(_.range(5), function (i) {
-                    var thisAnswerTypeCount = _.filter(newval, function (question) { return question.answer === (i + 1) }).length;
+                    var thisAnswerTypeCount = _.filter(value, function (question) { return question.answer === (i + 1) }).length;
                     scope["s" + (i + 1)] = (thisAnswerTypeCount * 2) + "%";
                 });
             }, true);
@@ -76,24 +76,21 @@ angular.module('app', [])
         scope: { question: "=ccQuestion", submit: "=ccSubmitAnswerFn" },
         templateUrl: 'templates/questionButtons.html',
         link: function (scope, element, attrs) {
-            var $btns = $(element).find('a');
 
-            scope.options = [
-                {text: 'Dislike very much', class: 'danger'}, 
-                {text: 'Dislike', class: 'warning'}, 
-                {text: 'Does not matter', class: 'info'}, 
-                {text: 'Like', class: 'primary'}, 
-                {text: 'Like very much', class: 'success'}
+            scope.buttons = [
+                { text: 'Dislike very much', class: 'danger' },
+                { text: 'Dislike', class: 'warning' },
+                { text: 'Does not matter', class: 'info' },
+                { text: 'Like', class: 'primary' },
+                { text: 'Like very much', class: 'success' }
             ];
 
-            $btns.on('click', function () {
+            scope.localClick = function (index) {
                 if (scope.question.disabled) {
                     return;
                 };
-                var thisAnswer = $(this).data("answer");
-                scope.$apply(function () { scope.submit(scope.question.id, thisAnswer) });
-                $btns.off('click');
-            });
+                scope.submit(scope.question.id, index + 1);
+            };
         }
     }
 });
