@@ -36,10 +36,9 @@ angular.module('app.directives', [])
         templateUrl: 'templates/progress.html',
         link: function (scope, element, attrs) {
             scope.vals = [];
-            scope.$watch(attrs.ccProgressData, function (value) {
-                var data = value;
+            scope.$watch(attrs.ccData, function (data) {
                 _.each(_.range(5), function (i) {
-                    var thisAnswerTypeCount = _.filter(value, function (question) { return question[1] === i }).length;
+                    var thisAnswerTypeCount = _.filter(data, function (question) { return question[1] === i }).length;
                     scope.vals[i] = (thisAnswerTypeCount * 2) + "%";
                 });
             }, true);
@@ -56,11 +55,11 @@ angular.module('app.directives', [])
         link: function (scope, element, attrs) {
 
             scope.buttons = [
-                { text: 'Dislike very much',    class: 'danger' },
-                { text: 'Dislike',              class: 'warning' },
-                { text: 'Does not matter',      class: 'info' },
-                { text: 'Like',                 class: 'primary' },
-                { text: 'Like very much',       class: 'success' }
+                { text: 'Dislike very much', class: 'danger' },
+                { text: 'Dislike', class: 'warning' },
+                { text: 'Does not matter', class: 'info' },
+                { text: 'Like', class: 'primary' },
+                { text: 'Like very much', class: 'success' }
             ];
 
             scope.localClick = function (index) {
@@ -76,7 +75,17 @@ angular.module('app.directives', [])
         replace: true,
         template: '<div></div>',
         link: function (scope, element, attrs) {
-            d3.pie(500, 500, element, [1, 2, 3, 4, 5, 6]);
+            var pieRef = d3.pie();
+            pieRef.init(150, 150, element, [43, 2, 4, 0, 0, 1]);
+
+            scope.$watch(attrs.ccData, function (data) {
+                var vals = [];
+                _.each(_.range(6), function (i) {
+                    vals.push(_.filter(data, function (question) { return question[1] === i - 1 }).length);
+                });
+                //pieRef.update(vals);
+            }, true);
+
         }
     }
 })
