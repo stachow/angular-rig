@@ -48,30 +48,32 @@ angular.module('app.services', [])
     });
 
     var send = function (message) {
-        (function waitForChannelOpenFn() {
-            if (channelOpen) {
-                pubnub.publish({
-                    channel: settings.channel,
-                    message: message
-                })
-            } else {
-                $timeout(waitForChannelOpenFn, settings.waitForChannelMs);
-            }
-        })();
+        pubnub.publish({
+            channel: settings.channel,
+            message: message
+        })
     };
 
-    var listen = function (listener) {
+    var listen = function (callback) {
         pubnub.subscribe({
+            restore: true,
             channel: settings.channel,
-            message: function (msg) { listener(msg) },
-            connect: function () { channelOpen = true; }
+            message: function (msg) { callback(msg) }
         })
+    };
 
+    var retrieveLatest = function (callback) {
+        pubnub.history({
+                limit    : 1,
+                channel  : settings.channel,
+                callback : function (msg) { callback(msg[0][0]) }
+            });
     };
 
     return {
         send: send,
-        listen: listen
+        listen: listen,
+        retrieveLatest: retrieveLatest
     };
 });
 

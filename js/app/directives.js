@@ -19,8 +19,9 @@ angular.module('app.directives', [])
         link: function (scope, element, attrs) {
             scope.vals = [];
             scope.$watch(attrs.ccProgressData, function (value) {
+                var data = value;
                 _.each(_.range(5), function (i) {
-                    var thisAnswerTypeCount = _.filter(value, function (question) { return question.answer === i }).length;
+                    var thisAnswerTypeCount = _.filter(value, function (question) { return question[1] === i }).length;
                     scope.vals[i] = (thisAnswerTypeCount * 2) + "%";
                 });
             }, true);

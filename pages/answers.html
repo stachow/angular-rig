@@ -1,7 +1,11 @@
 <h1>Answers</h1>
 
-<span ng-repeat="question in data">
+<div>
+    <cc-progress cc-progress-data="data"></cc-progress>
+</div>
 
-    <span class="btn btn-tiny" ng-class="buttonClasses[question[1]]">{{question[0] + 1}}</span>
-
-</span>
+<div>
+    <span ng-repeat="question in answeredData">
+        <span class="btn btn-tiny" ng-class="buttonClasses[question[1]]">{{question[0] + 1}}</span>
+    </span>
+</div>

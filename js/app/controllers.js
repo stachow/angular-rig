@@ -29,32 +29,36 @@ function QuestionCtrl($scope, messageService, dataService) {
         messageService.send($scope.data.dataToSubmit());
     };
 
-    $scope.recieveMessage = function (msg) {
-        //console.log(msg);
-    };
+    $scope.reset = function () {
+        $scope.data = dataService;
+        _.each($scope.data, function (question) { 
+            question.disabled = true; 
+            question.answer = -1; 
+        });
+        $scope.data[0].disabled = false;
+        $scope.scrollTop = 0;
+        messageService.send($scope.data.dataToSubmit());
+    }
 
-    // init
-    $scope.scrollTop = 0;
-    $scope.data = dataService;
-    $scope.data[0].disabled = false;
-    messageService.listen($scope.recieveMessage);
+    $scope.reset();
+
 }
 
 function AnswersCtrl($scope, messageService) {
-
-    $scope.data = [];
-
+    
     $scope.buttonClasses = ['btn-danger', 'btn-warning', 'btn-info', 'btn-primary', 'btn-success'];
+    $scope.data = [];
+    $scope.answeredData = [];
 
-    var filterAnswered = function (data) { 
-        return _.filter(data, function(item) {return item[1] >=0 }) 
+    $scope.receiveData = function (msg) {
+        if (msg) {
+            $scope.$apply(function () {
+                $scope.data = msg;
+                $scope.answeredData = _.filter($scope.data, function (item) { return item[1] >= 0 });
+            })
+        };
     };
-
-    var recieveMessage = function (msg) {
-        console.log(msg);
-        $scope.$apply(function () { $scope.data = filterAnswered(msg); });
-    };
-    messageService.listen(recieveMessage);
-
-
+        
+    messageService.listen($scope.receiveData);
+    messageService.retrieveLatest($scope.receiveData)
 }
