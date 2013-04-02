@@ -11,6 +11,24 @@ angular.module('app.directives', [])
     }
 })
 
+.directive('ccHrefName', function ($route) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var routeName = attrs.ccHrefName.toLowerCase();
+            var href = '';
+            for (var path in $route.routes) {
+                if ($route.routes.hasOwnProperty(path)) {
+                    if ($route.routes[path].name && $route.routes[path].name.toLowerCase() === routeName) {
+                        console.log(element);
+                        $(element).attr('href','#' + path);
+                    }
+                }
+            }
+        }
+    }
+})
+
 .directive('ccProgress', function () {
     return {
         restrict: 'E',
