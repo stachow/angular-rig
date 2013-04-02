@@ -1,7 +1,7 @@
 <h1>Aspects Rig</h1>
 
 <p>
-    <a href="#/">Home</a>
+    <a href="#/">Home</a> | <a href="#/answers" target="_blank">Adviser view (new tab)</a>
 </p>                
 
 <div cc-scroll="scrollTop" class="question-window">
@@ -11,8 +11,16 @@
     </div>
 </div>
 
-<cc-progress cc-progress-data="data"></cc-progress>
-            
+<p>
+    <cc-progress cc-progress-data="data.dataToSubmit()"></cc-progress>
+</p>            
+<p>
+    <button class="btn" ng-click="reset()">Reset</button>
+</p>
+
+
+
+
 <hr/>
 <p style="margin-top: 100px">
     <small class="muted">Data:<br/>{{data.dataToSubmit()}}</small>
