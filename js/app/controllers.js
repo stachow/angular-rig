@@ -2,7 +2,7 @@ function HomeCtrl() {
 
 }
 
-function QuestionCtrl($scope, messageService, dataService) {
+function QuestionCtrl($scope, messageService, dataService, _) {
 
     $scope.settings = {
         scrollEvery:    3,
@@ -44,7 +44,7 @@ function QuestionCtrl($scope, messageService, dataService) {
 
 }
 
-function AnswersCtrl($scope, messageService) {
+function AnswersCtrl($scope, messageService, _) {
     
     $scope.buttonClasses = ['btn-danger', 'btn-warning', 'btn-info', 'btn-primary', 'btn-success'];
     $scope.data = [];
