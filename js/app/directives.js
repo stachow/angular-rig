@@ -29,7 +29,7 @@ angular.module('app.directives', [])
     }
 })
 
-.directive('ccProgress', function () {
+.directive('ccProgress', function (_) {
     return {
         restrict: 'E',
         replace: true,
