@@ -21,7 +21,7 @@ angular.module('app.directives', [])
                 if ($route.routes.hasOwnProperty(path)) {
                     if ($route.routes[path].name && $route.routes[path].name.toLowerCase() === routeName) {
                         console.log(element);
-                        $(element).attr('href','#' + path);
+                        $(element).attr('href', '#' + path);
                     }
                 }
             }
@@ -56,16 +56,27 @@ angular.module('app.directives', [])
         link: function (scope, element, attrs) {
 
             scope.buttons = [
-                { text: 'Dislike very much', class: 'danger' },
-                { text: 'Dislike', class: 'warning' },
-                { text: 'Does not matter', class: 'info' },
-                { text: 'Like', class: 'primary' },
-                { text: 'Like very much', class: 'success' }
+                { text: 'Dislike very much',    class: 'danger' },
+                { text: 'Dislike',              class: 'warning' },
+                { text: 'Does not matter',      class: 'info' },
+                { text: 'Like',                 class: 'primary' },
+                { text: 'Like very much',       class: 'success' }
             ];
 
             scope.localClick = function (index) {
                 !scope.question.disabled && scope.submit(scope.question.id, index);
             };
+        }
+    }
+})
+
+.directive('ccPie', function (d3) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div></div>',
+        link: function (scope, element, attrs) {
+            d3.pie(500, 500, element, [1, 2, 3, 4, 5, 6]);
         }
     }
 })

@@ -1,7 +1,7 @@
 angular.module('app.services', [])
 
-.factory('_', function() {
-  return window._;
+.factory('_', function () {
+    return window._;
 })
 
 .factory('dataService', function () {
@@ -68,10 +68,10 @@ angular.module('app.services', [])
 
     var retrieveLatest = function (callback) {
         pubnub.history({
-                limit    : 1,
-                channel  : settings.channel,
-                callback : function (msg) { callback(msg[0][0]) }
-            });
+            limit: 1,
+            channel: settings.channel,
+            callback: function (msg) { callback(msg[0][0]) }
+        });
     };
 
     return {
@@ -79,6 +79,36 @@ angular.module('app.services', [])
         listen: listen,
         retrieveLatest: retrieveLatest
     };
-});
+})
 
+.factory('d3', function () {
 
+    var pie = function (width, height, el, data) {
+        var radius = Math.min(width, height) / 2,
+            color = d3.scale.ordinal().range(["#e8edf2", "#e74c3c", "#f1c40f", "#3498db", "#1abc9c", "#2ecc71"]);
+
+        var pie = d3.layout.pie()
+            .sort(null);
+
+        var arc = d3.svg.arc()
+            .innerRadius(radius - 150)
+            .outerRadius(radius - 20);
+
+        var svg = d3.select(el[0]).append("svg")
+             .attr("width", width)
+             .attr("height", height)
+             .append("g")
+             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var path = svg.selectAll("path")
+            .data(pie(data))
+            .enter().append("path")
+            .attr("fill", function (d, i) { return color(i); })
+            .attr("d", arc);
+    };
+
+    return {
+        pie: pie
+    }
+
+})
