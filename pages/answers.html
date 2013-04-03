@@ -4,13 +4,17 @@
     <cc-progress cc-data="data"></cc-progress>
 </div>
 
-<div>
-    <span ng-repeat="question in answeredData">
-        <span class="btn btn-tiny" ng-class="buttonClasses[question[1]]">{{question[0] + 1}}</span>
-    </span>
-</div>
 
+<div class="row-fluid">
 
-<div>
-    <cc-pie cc-data="data"></cc-pie>
+    <div class="span9">
+        <span ng-repeat="question in answeredData">
+            <span class="btn btn-tiny" ng-class="buttonClasses[question[1]]">{{question[0] + 1}}</span>
+        </span>
+    </div>
+
+    <div class="span3">
+        <cc-pie cc-data="data"></cc-pie>
+    </div>
+
 </div>

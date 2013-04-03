@@ -81,11 +81,23 @@ angular.module('app.services', [])
     };
 })
 
-.factory('d3', function () {
+.factory('d3', function (_) {
 
     var pie = function () {
 
         var path, pie, arc;
+
+        var containsANonZero = function (data) {
+            return _.some(data, function (item) { return item > 0 })
+        }
+
+        var arcTween = function (a) {
+          var i = d3.interpolate(this._current, a);
+          this._current = i(0);
+          return function(t) {
+            return arc(i(t));
+          };
+        }
 
         var init = function (width, height, el, data) {
             var radius = Math.min(width, height) / 2,
@@ -95,8 +107,8 @@ angular.module('app.services', [])
                 .sort(null);
 
             arc = d3.svg.arc()
-                .innerRadius(radius - (width/ 4))
-                .outerRadius(radius - (width/ 20));
+                .innerRadius(radius - (width / 4))
+                .outerRadius(radius - (width / 20));
 
             var svg = d3.select(el[0]).append("svg")
                  .attr("width", width)
@@ -104,18 +116,23 @@ angular.module('app.services', [])
                  .append("g")
                  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
+            !containsANonZero(data) && (data[0] = 1);
+            
             path = svg.selectAll("path")
                 .data(pie(data))
                 .enter().append("path")
                 .attr("fill", function (d, i) { return color(i); })
-                .attr("d", arc);
+                .attr("d", arc)
+                .each(function(d) { this._current = d; });;
 
         }
 
         var update = function (data) {
+            
+            !containsANonZero(data) && (data[0] = 1);
+            
             path = path.data(pie(data));
-            console.log(path);
-            path.attr("d", arc);
+            path.transition().duration(500).attrTween("d", arcTween);
         }
 
         return {
