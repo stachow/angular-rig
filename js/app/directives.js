@@ -20,7 +20,6 @@ angular.module('app.directives', [])
             for (var path in $route.routes) {
                 if ($route.routes.hasOwnProperty(path)) {
                     if ($route.routes[path].name && $route.routes[path].name.toLowerCase() === routeName) {
-                        console.log(element);
                         $(element).attr('href', '#' + path);
                     }
                 }
@@ -83,7 +82,6 @@ angular.module('app.directives', [])
                     var thisCount = _.filter(data, function (question) { return question[1] === i - 1 }).length
                     vals.push(thisCount);
                 });
-                console.log(vals);
                 pieRef.update(vals);
             }, true);
 
