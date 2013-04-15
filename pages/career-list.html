@@ -1,0 +1,15 @@
+<h1>Career list</h1>
+<span ng-show="data.length == 0">
+<a class="btn" ng-click="getData()">Get Data</a> 
+</span>
+<span ng-show="data.length > 0">
+    <a class="btn" ng-click="predicate = 'FirstName'">Order by First name</a> |
+    <a class="btn" ng-click="predicate = 'LastName'">Order by Last name</a> |
+    <a class="btn" ng-click="predicate = 'Id'">Order by Id</a> 
+</span>
+<br><br>
+<ol>
+    <li ng-repeat="item in data | orderBy:predicate">
+        {{item.FirstName}} {{item.LastName}} ({{item.Id}})
+    </li>
+</ol>
