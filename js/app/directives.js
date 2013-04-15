@@ -20,8 +20,12 @@ angular.module('app.directives', [])
             for (var path in $route.routes) {
                 if ($route.routes.hasOwnProperty(path)) {
                     if ($route.routes[path].name && $route.routes[path].name.toLowerCase() === routeName) {
+<<<<<<< HEAD
                         console.log(element);
                         $(element).attr('href', path);
+=======
+                        $(element).attr('href', '#' + path);
+>>>>>>> b74a884eee99ce11631695754506dbafce90318e
                     }
                 }
             }
@@ -76,14 +80,14 @@ angular.module('app.directives', [])
         template: '<div></div>',
         link: function (scope, element, attrs) {
             var pieRef = d3.pie();
-            pieRef.init(150, 150, element, [43, 2, 4, 0, 0, 1]);
-
+            pieRef.init(150, 150, element, [0, 0, 0, 0, 0, 0]);
             scope.$watch(attrs.ccData, function (data) {
                 var vals = [];
                 _.each(_.range(6), function (i) {
-                    vals.push(_.filter(data, function (question) { return question[1] === i - 1 }).length);
+                    var thisCount = _.filter(data, function (question) { return question[1] === i - 1 }).length
+                    vals.push(thisCount);
                 });
-                //pieRef.update(vals);
+                pieRef.update(vals);
             }, true);
 
         }
