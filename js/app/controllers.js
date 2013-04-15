@@ -62,3 +62,34 @@ function AnswersCtrl($scope, messageService, _) {
     messageService.listen($scope.receiveData);
     messageService.retrieveLatest($scope.receiveData)
 }
+
+function CareersCtrl($scope, bigDataService) {
+
+    $scope.data = [];
+
+    $scope.getData = function () {
+        bigDataService(function (data) {
+            console.log(data);
+            $scope.data = data;
+            
+        })
+    }
+
+    //$scope.orderFirstName = function () {
+    //    var newArr = [];
+    //    angular.copy($scope.data, newArr);
+    //    newArr.sort(function (a, b) { return a.FirstName > b.FirstName });
+    //    $scope.data = newArr;
+    //}
+
+    //$scope.orderLastName = function () { 
+    //    console.log($scope.data.length);
+    //    $scope.data.sort(function (a, b) { return a.LastName > b.LastName });
+    //}
+
+    //$scope.orderId = function () { 
+    //    console.log($scope.data.length);
+    //    $scope.data.sort(function (a, b) { return a.Id > b.Id });
+    //}
+
+}

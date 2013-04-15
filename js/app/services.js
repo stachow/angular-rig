@@ -95,8 +95,8 @@ angular.module('app.services', [])
                 .sort(null);
 
             arc = d3.svg.arc()
-                .innerRadius(radius - (width/ 4))
-                .outerRadius(radius - (width/ 20));
+                .innerRadius(radius - (width / 4))
+                .outerRadius(radius - (width / 20));
 
             var svg = d3.select(el[0]).append("svg")
                  .attr("width", width)
@@ -126,6 +126,14 @@ angular.module('app.services', [])
 
     return {
         pie: pie
+    }
+
+})
+
+.factory('bigDataService', function ($http) {
+
+    return function (callback) { 
+        return $http.get('/resource/data.json.txt').success(callback)
     }
 
 })
