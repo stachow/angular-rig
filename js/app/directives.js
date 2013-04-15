@@ -20,12 +20,8 @@ angular.module('app.directives', [])
             for (var path in $route.routes) {
                 if ($route.routes.hasOwnProperty(path)) {
                     if ($route.routes[path].name && $route.routes[path].name.toLowerCase() === routeName) {
-<<<<<<< HEAD
                         console.log(element);
                         $(element).attr('href', path);
-=======
-                        $(element).attr('href', '#' + path);
->>>>>>> b74a884eee99ce11631695754506dbafce90318e
                     }
                 }
             }

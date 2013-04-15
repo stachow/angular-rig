@@ -8,6 +8,6 @@ angular.module('app', ['app.services', 'app.directives']).
           when('/career-list', { name: 'career-list', templateUrl: 'pages/career-list.html', controller: CareersCtrl }).
           otherwise({ redirectTo: '/' });
 
-      $locationProvider.html5Mode(false);
+      $locationProvider.html5Mode(true);
 
   });
