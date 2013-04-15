@@ -150,7 +150,7 @@ angular.module('app.services', [])
 .factory('bigDataService', function ($http) {
 
     return function (callback) { 
-        return $http.get('/resource/data.json.txt').success(callback)
+        return $http.get('/angular-rig/resource/data.json.txt').success(callback)
     }
 
 })
