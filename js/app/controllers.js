@@ -74,22 +74,40 @@ function CareersCtrl($scope, bigDataService) {
             
         })
     }
+}
 
-    //$scope.orderFirstName = function () {
-    //    var newArr = [];
-    //    angular.copy($scope.data, newArr);
-    //    newArr.sort(function (a, b) { return a.FirstName > b.FirstName });
-    //    $scope.data = newArr;
-    //}
+function DynamicCtrl($scope) { 
+    $scope.data = [
+        { name:'Lorem ipsum dolor',   pos: 1, oldPos: 1}, 
+        { name:'sit amet consectetur',   pos: 2, oldPos: 2}, 
+        { name:'adipiscing elit Curabitur', pos: 3, oldPos: 3}, 
+        { name:'nec vulputate',  pos: 4, oldPos: 4}, 
+        { name:'justo Vestibulum ',  pos: 5, oldPos: 5}, 
+        { name:'ipsum primis in ',   pos: 6, oldPos: 6}
+    ];
 
-    //$scope.orderLastName = function () { 
-    //    console.log($scope.data.length);
-    //    $scope.data.sort(function (a, b) { return a.LastName > b.LastName });
-    //}
+    $scope.shuffle = function(){
+        _.each($scope.data, function(item){ 
+            item.oldPos = item.pos;
+            item.pos = 0;
+         });
 
-    //$scope.orderId = function () { 
-    //    console.log($scope.data.length);
-    //    $scope.data.sort(function (a, b) { return a.Id > b.Id });
-    //}
+         var keepSamePos = Math.floor((Math.random()*6)+1);
+        _.each($scope.data, function(item){ 
+            
+            if (item.oldPos == keepSamePos){
+                item.pos = keepSamePos;
+                return;
+            }
+
+            var candidatePos;
+            do{
+                candidatePos = Math.floor((Math.random()*6)+1);
+            }
+            while(_.some($scope.data, function(item) { return (candidatePos === keepSamePos) || (item.pos === candidatePos) }));
+
+            item.pos = candidatePos;            
+         });
+    }
 
 }

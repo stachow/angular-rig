@@ -89,3 +89,26 @@ angular.module('app.directives', [])
         }
     }
 })
+
+.directive('ccShuffleItem', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            scope.$watch(attrs.ccShuffleItem, function (value) {
+                if (value == 0){
+                    return;
+                } else if (value == -1){
+                    $el.animate({ opacity: 0}, 600);
+                } else {
+                    var $el = $(element[0]);
+                    $el.css("z-index", -1 * value);
+                    $el.css("opacity", 0.4);
+                    $el.animate({ top: value * 45}, 600, function(){
+                        $el.css("opacity", 1);
+                    
+                    });                    
+                }
+            }, true);
+        }
+    }
+})
