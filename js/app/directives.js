@@ -5,7 +5,7 @@ angular.module('app.directives', [])
         restrict: 'A',
         link: function (scope, element, attrs) {
             scope.$watch(attrs.ccScroll, function (value) {
-                $(element).animate({ scrollTop: value }, 600);
+                $(element).animate({ scrollTop: value }, 400);
             }, true);
         }
     }
@@ -102,7 +102,7 @@ angular.module('app.directives', [])
                 } else {
                     var $el = $(element[0]);
                     $el.css("z-index", -1 * value.pos);
-                    $el.css("opacity", 0.4);
+                    $el.css("opacity", 0.6);
                     $el.animate({ top: (value.pos - 1) * 35 }, 600, function () {
                         $el.css("opacity", 1);
 
