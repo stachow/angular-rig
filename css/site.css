@@ -18,21 +18,43 @@
 .question-window {
      height: 450px;
      overflow-y: hidden;
+     width: 780px;
+}
+
+.progress {
+    width: 780px;
 }
 
 .container {
-     width: 780px;
+     width: 1080px;
 }
- 
+
+.dynamic-list-container {
+    padding-top: 225px;
+}
+
+.dynamic-list-container h5{
+    color:  #DDDDDD;
+    padding-left: 24px;
+}
+
 .dynamic-list{
     position: relative;
+    height: 175px;
+    width: 175px;
+    padding: 0;
+    overflow-y: hidden;
 }
 
 .dynamic-list > * {
+    display: block;
     position:absolute;
-    padding: 10px 2px 10px 20px;
-    background: #9B59B6;
-    color: white;
-    width: 200px;
+    padding: 6px 2px 6px 15px;
+    background: #EEEEEE;
+    color: #BBBBBB;
+    width: 150px;
     list-style-type: none;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
+

@@ -3,7 +3,7 @@
 <button class="btn" ng-click="shuffle()">Update</button>
 
 <ul class="dynamic-list">
-    <li class="btn" ng-repeat="item in data" cc-shuffle-item="item.pos">{{item.name}}</li>
+    <li  ng-repeat="item in data" cc-shuffle-item="item">{{item.name}} <span class="icon-arrow-left icon-white" style="float: right;"></span></li>
 </ul>
 
 <!--<div style="position:relative;height:400px;width:200px;background-color:#EEEEEE">

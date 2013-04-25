@@ -95,20 +95,32 @@ angular.module('app.directives', [])
         restrict: 'A',
         link: function (scope, element, attrs) {
             scope.$watch(attrs.ccShuffleItem, function (value) {
-                if (value == 0){
+                if (value.pos == 0) {
                     return;
-                } else if (value == -1){
-                    $el.animate({ opacity: 0}, 600);
+                } else if (value.pos == -1) {
+                    $el.animate({ opacity: 0 }, 600);
                 } else {
                     var $el = $(element[0]);
-                    $el.css("z-index", -1 * value);
+                    $el.css("z-index", -1 * value.pos);
                     $el.css("opacity", 0.4);
-                    $el.animate({ top: value * 45}, 600, function(){
+                    $el.animate({ top: (value.pos - 1) * 35 }, 600, function () {
                         $el.css("opacity", 1);
-                    
-                    });                    
+
+                    });
                 }
+
+                $el.find('span').removeClass("icon-arrow-left");
+                $el.find('span').removeClass("icon-arrow-up");
+                $el.find('span').removeClass("icon-arrow-down");
+                if (value.pos === value.oldPos) {
+                    $el.find('span').addClass("icon-arrow-left");
+                } else if (value.pos >= value.oldPos) {
+                    $el.find('span').addClass("icon-arrow-down");
+                } else {
+                    $el.find('span').addClass("icon-arrow-up");
+                };
             }, true);
+
         }
     }
 })

@@ -10,8 +10,9 @@ function QuestionCtrl($scope, messageService, dataService, _) {
     };
 
     $scope.doScroll = function (id) {
-        if (!((id+1) % $scope.settings.scrollEvery)) {
+        if (!((id + 1) % $scope.settings.scrollEvery)) {
             $scope.scrollTop += $scope.settings.scrollLength;
+            $scope.shuffle();
         };
     };
 
@@ -42,6 +43,41 @@ function QuestionCtrl($scope, messageService, dataService, _) {
 
     $scope.reset();
 
+    $scope.careerData = [
+        { name:'Lorem ipsum dolor',   pos: 1, oldPos: 1}, 
+        { name:'sit amet consectetur',   pos: 2, oldPos: 2}, 
+        { name:'adipiscing elit', pos: 3, oldPos: 3}, 
+        { name:'nec vulputate',  pos: 4, oldPos: 4}, 
+        { name:'justo Vestibulum ',  pos: 5, oldPos: 5}, 
+        { name:'ipsum primis in ',   pos: 6, oldPos: 6}
+    ];
+
+    $scope.shuffle = function () {
+
+        var count = $scope.careerData.length;
+
+        _.each($scope.careerData, function (item) {
+            item.oldPos = item.pos;
+            item.pos = 0;
+        });
+
+        var keepSamePos = Math.floor((Math.random() * count) + 1);
+        _.each($scope.careerData, function (item) {
+
+            if (item.oldPos == keepSamePos) {
+                item.pos = keepSamePos;
+                return;
+            }
+
+            var candidatePos;
+            do {
+                candidatePos = Math.floor((Math.random() * count) + 1);
+            }
+            while (_.some($scope.careerData, function (item) { return (candidatePos === keepSamePos) || (item.pos === candidatePos) }));
+
+            item.pos = candidatePos;
+        });
+    }
 }
 
 function AnswersCtrl($scope, messageService, _) {
@@ -86,28 +122,31 @@ function DynamicCtrl($scope) {
         { name:'ipsum primis in ',   pos: 6, oldPos: 6}
     ];
 
-    $scope.shuffle = function(){
-        _.each($scope.data, function(item){ 
+    $scope.shuffle = function () {
+
+        var count = $scope.data.length;
+
+        _.each($scope.data, function (item) {
             item.oldPos = item.pos;
             item.pos = 0;
-         });
+        });
 
-         var keepSamePos = Math.floor((Math.random()*6)+1);
-        _.each($scope.data, function(item){ 
-            
-            if (item.oldPos == keepSamePos){
+        var keepSamePos = Math.floor((Math.random() * count) + 1);
+        _.each($scope.data, function (item) {
+
+            if (item.oldPos == keepSamePos) {
                 item.pos = keepSamePos;
                 return;
             }
 
             var candidatePos;
-            do{
-                candidatePos = Math.floor((Math.random()*6)+1);
+            do {
+                candidatePos = Math.floor((Math.random() * count) + 1);
             }
-            while(_.some($scope.data, function(item) { return (candidatePos === keepSamePos) || (item.pos === candidatePos) }));
+            while (_.some($scope.data, function (item) { return (candidatePos === keepSamePos) || (item.pos === candidatePos) }));
 
-            item.pos = candidatePos;            
-         });
+            item.pos = candidatePos;
+        });
     }
 
 }

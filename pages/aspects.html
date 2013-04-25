@@ -4,16 +4,29 @@
     <a cc-href-name="home">Home</a> | <a cc-href-name="answers" target="_blank">Adviser view (new tab)</a>
 </p>                
 
-<div cc-scroll="scrollTop" class="question-window">
-    <div ng-repeat="question in data">
-        <h4>{{question.id + 1}}) {{question.question}}</h4>
-        <cc-question-buttons cc-question="question" cc-submit-answer-fn="submitAnswer"></cc-question-buttons>
+<div class="row">
+    
+    <div class="span10">
+        <div cc-scroll="scrollTop" class="question-window">
+            <div ng-repeat="question in data">
+                <h4>{{question.id + 1}}) {{question.question}}</h4>
+                <cc-question-buttons cc-question="question" cc-submit-answer-fn="submitAnswer"></cc-question-buttons>
+            </div>
+        </div>
+    </div>
+
+    <div class="span3 dynamic-list-container">
+        <h5>Potential Careers</h5>
+        <ul class="dynamic-list">
+            <li  ng-repeat="item in careerData" cc-shuffle-item="item">{{item.name}} <span class="icon-arrow-left icon-white" style="float: right;"></span></li>
+        </ul>
     </div>
 </div>
 
-<p>
+<div class="progress">
+    <br />
     <cc-progress cc-data="data.dataToSubmit()"></cc-progress>
-</p>            
+</div>            
 <p>
     <button class="btn" ng-click="reset()">Reset</button>
 </p>
@@ -22,7 +35,14 @@
 
 
 <hr/>
-<p style="margin-top: 100px">
-    <small class="muted">Data:<br/>{{data.dataToSubmit()}}</small>
-</p>
+<div class="row">
+    <div class="span8">
+        <p style="margin-top: 100px">
+            <small class="muted">Data:<br/>{{data.dataToSubmit()}}</small>
+        </p>
+    </div>
+
+</div>
+    
+
                                      
