@@ -154,3 +154,25 @@ angular.module('app.services', [])
     }
 
 })
+
+.factory('api', function($http){
+
+    var session = {
+        username: '',
+        loggedIn: false
+    };
+
+    return {
+        doLogin: function(username, password, callback){
+                    $http.post("/WebServices/UserService.svc/ajax/Login", {"username":  username , "password":  password })
+                          .success(function(data){
+                            session.username = username;
+                            session.loggedIn = true;
+                            callback(data);   
+                          });  
+        },
+        getSession: function() { 
+            return session;
+        }
+    }
+})

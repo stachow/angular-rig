@@ -150,3 +150,12 @@ function DynamicCtrl($scope) {
     }
 
 }
+
+function LoginCtrl($scope, api){
+    $scope.doLogin = function (){
+        console.log($scope.loginForm.$valid);
+        if ($scope.loginForm.$valid){
+            api.doLogin($scope.username, $scope.password, function(data){ console.log(data)});    
+        }
+    }
+}

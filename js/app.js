@@ -7,6 +7,7 @@ angular.module('app', ['app.services', 'app.directives', 'app.animations']).
           when('/answers', { name: 'answers', templateUrl: 'pages/answers.html', controller: AnswersCtrl }).
           when('/career-list', { name: 'career-list', templateUrl: 'pages/career-list.html', controller: CareersCtrl }).
           when('/dynamic-list', { name: 'dynamic-list', templateUrl: 'pages/dynamic-list.html', controller: DynamicCtrl }).
+          when('/login', { name: 'login', templateUrl: 'pages/login.html', controller: LoginCtrl }).
           otherwise({ redirectTo: '/' });
 
       $locationProvider.html5Mode(false);
