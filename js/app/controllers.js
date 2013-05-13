@@ -1,5 +1,20 @@
 function HomeCtrl() { 
+}
 
+function LoginCtrl($scope, api){
+
+    $scope.name = null;
+
+    $scope.doLogin = function () {
+
+        var callback = function (data) {
+            $scope.name = data.d.Firstname + ' ' + data.d.Lastname;
+        }
+
+        if ($scope.loginForm.$valid) {
+            api.doLogin($scope.username, $scope.password, function () { api.getContact(callback) });
+        }
+    }
 }
 
 function QuestionCtrl($scope, messageService, dataService, _) {
@@ -100,72 +115,4 @@ function AnswersCtrl($scope, messageService, _) {
         
     messageService.listen($scope.receiveData);
     messageService.retrieveLatest($scope.receiveData)
-}
-
-function CareersCtrl($scope, bigDataService) {
-
-    $scope.data = [];
-
-    $scope.getData = function () {
-        bigDataService(function (data) {
-            console.log(data);
-            $scope.data = data;
-            
-        })
-    }
-}
-
-function DynamicCtrl($scope) { 
-    $scope.data = [
-        { name:'Lorem ipsum dolor',   pos: 1, oldPos: 1}, 
-        { name:'sit amet consectetur',   pos: 2, oldPos: 2}, 
-        { name:'adipiscing elit Curabitur', pos: 3, oldPos: 3}, 
-        { name:'nec vulputate',  pos: 4, oldPos: 4}, 
-        { name:'justo Vestibulum ',  pos: 5, oldPos: 5}, 
-        { name:'ipsum primis in ',   pos: 6, oldPos: 6}
-    ];
-
-    $scope.shuffle = function () {
-
-        var count = $scope.data.length;
-
-        _.each($scope.data, function (item) {
-            item.oldPos = item.pos;
-            item.pos = 0;
-        });
-
-        var keepSamePos = Math.floor((Math.random() * count) + 1);
-        _.each($scope.data, function (item) {
-
-            if (item.oldPos == keepSamePos) {
-                item.pos = keepSamePos;
-                return;
-            }
-
-            var candidatePos;
-            do {
-                candidatePos = Math.floor((Math.random() * count) + 1);
-            }
-            while (_.some($scope.data, function (item) { return (candidatePos === keepSamePos) || (item.pos === candidatePos) }));
-
-            item.pos = candidatePos;
-        });
-    }
-
-}
-
-function LoginCtrl($scope, api){
-
-    $scope.name = null;
-
-    $scope.doLogin = function () {
-
-        var callback = function (data) {
-            $scope.name = data.d.Firstname + ' ' + data.d.Lastname;
-        }
-
-        if ($scope.loginForm.$valid) {
-            api.doLogin($scope.username, $scope.password, function () { api.getContact(callback) });
-        }
-    }
 }
