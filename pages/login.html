@@ -1,4 +1,8 @@
 <h1>Login</h1>
+<p>
+    <a cc-href-name="home">Home</a> 
+</p> 
+
 <form name="loginForm">
     <fieldset>
         <label></label>
@@ -8,5 +12,9 @@
         <br>
         <button class="btn" ng-click="doLogin()">Log in</button>
     
+        <p ng-show="name">
+            Hi {{name}}
+        </p>
+
     </fieldset>
 </form>

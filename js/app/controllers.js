@@ -31,14 +31,17 @@ function QuestionCtrl($scope, messageService, dataService, _) {
     };
 
     $scope.reset = function () {
-        $scope.data = dataService;
-        _.each($scope.data, function (question) { 
-            question.disabled = true; 
-            question.answer = -1; 
-        });
-        $scope.data[0].disabled = false;
-        $scope.scrollTop = 0;
-        messageService.send($scope.data.dataToSubmit());
+
+        dataService(function (data) { 
+             $scope.data = data;
+            _.each($scope.data, function (question) {
+                question.disabled = true;
+                question.answer = -1;
+            });
+            $scope.data[0].disabled = false;
+            $scope.scrollTop = 0;
+            messageService.send($scope.data.dataToSubmit());
+            })
     }
 
     $scope.reset();
@@ -152,10 +155,17 @@ function DynamicCtrl($scope) {
 }
 
 function LoginCtrl($scope, api){
-    $scope.doLogin = function (){
-        console.log($scope.loginForm.$valid);
-        if ($scope.loginForm.$valid){
-            api.doLogin($scope.username, $scope.password, function(data){ console.log(data)});    
+
+    $scope.name = null;
+
+    $scope.doLogin = function () {
+
+        var callback = function (data) {
+            $scope.name = data.d.Firstname + ' ' + data.d.Lastname;
+        }
+
+        if ($scope.loginForm.$valid) {
+            api.doLogin($scope.username, $scope.password, function () { api.getContact(callback) });
         }
     }
 }

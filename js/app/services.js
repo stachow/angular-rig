@@ -4,10 +4,42 @@ angular.module('app.services', [])
     return window._;
 })
 
-.factory('dataService', function () {
+.factory('dataService', function (api) {
 
-    var words = "Lorem ipsum dolor sit amet consectetur adipiscing elit Curabitur nec vulputate justo Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae Phasellus ullamcorper sapien a ante aliquam ut fringilla libero adipiscing Fusce quis lectus lectus et cursus risus Maecenas ullamcorper erat eu tortor iaculis eget ultricies enim imperdiet Cras rutrum sagittis dignissim Class aptent taciti sociosqu ad litora torquent per conubia nostra per inceptos himenaeos Donec hendrerit tortor commodo malesuada adipiscing lacus massa rhoncus mauris lacinia bibendum lacus odio quis libero Mauris sollicitudin est eu dui dapibus commodo Donec convallis tincidunt augue quis fringilla neque malesuada ut Nunc faucibus lorem vitae risus vulputate ut ullamcorper sapien egestas Ut malesuada metus et ante blandit vel dapibus nisl tincidunt Nunc eu turpis magna vitae vulputate risus Nam in turpis ante Vestibulum elementum vulputate arcu mattis fermentum Aenean tincidunt ultricies mi a rhoncus ante iaculis ac Fusce ligula tellus suscipit nec ultricies ut pellentesque in eros Curabitur eleifend lorem ut arcu scelerisque blandit Suspendisse nunc lorem fringilla eu lobortis sit amet convallis in tellus Phasellus urna metus vestibulum et sodales et luctus a libero Class aptent taciti sociosqu ad litora torquent per conubia nostra per inceptos himenaeos Nulla in dui eget libero imperdiet dignissim Integer vel varius leo Fusce nec tortor at augue facilisis porta Etiam nec commodo quam Curabitur sit amet orci in lectus volutpat sagittis Proin non mollis nunc Ut nulla elit bibendum a consequat non vestibulum sed purus Mauris sit amet enim tellus Curabitur sed nunc eget felis adipiscing posuere Ut semper ultrices venenatis Mauris semper euismod diam eu feugiat nisi bibendum ut Donec cursus placerat tincidunt Donec porttitor diam a dictum porta enim mi tempus nisl gravida egestas ligula felis ac magna Nulla et quam mattis ante ornare porta et ac augue Ut imperdiet venenatis";
-    var wordsArray = words.split(" ");
+    //var words = "Lorem ipsum dolor sit amet consectetur adipiscing elit Curabitur nec vulputate justo Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae Phasellus ullamcorper sapien a ante aliquam ut fringilla libero adipiscing Fusce quis lectus lectus et cursus risus Maecenas ullamcorper erat eu tortor iaculis eget ultricies enim imperdiet Cras rutrum sagittis dignissim Class aptent taciti sociosqu ad litora torquent per conubia nostra per inceptos himenaeos Donec hendrerit tortor commodo malesuada adipiscing lacus massa rhoncus mauris lacinia bibendum lacus odio quis libero Mauris sollicitudin est eu dui dapibus commodo Donec convallis tincidunt augue quis fringilla neque malesuada ut Nunc faucibus lorem vitae risus vulputate ut ullamcorper sapien egestas Ut malesuada metus et ante blandit vel dapibus nisl tincidunt Nunc eu turpis magna vitae vulputate risus Nam in turpis ante Vestibulum elementum vulputate arcu mattis fermentum Aenean tincidunt ultricies mi a rhoncus ante iaculis ac Fusce ligula tellus suscipit nec ultricies ut pellentesque in eros Curabitur eleifend lorem ut arcu scelerisque blandit Suspendisse nunc lorem fringilla eu lobortis sit amet convallis in tellus Phasellus urna metus vestibulum et sodales et luctus a libero Class aptent taciti sociosqu ad litora torquent per conubia nostra per inceptos himenaeos Nulla in dui eget libero imperdiet dignissim Integer vel varius leo Fusce nec tortor at augue facilisis porta Etiam nec commodo quam Curabitur sit amet orci in lectus volutpat sagittis Proin non mollis nunc Ut nulla elit bibendum a consequat non vestibulum sed purus Mauris sit amet enim tellus Curabitur sed nunc eget felis adipiscing posuere Ut semper ultrices venenatis Mauris semper euismod diam eu feugiat nisi bibendum ut Donec cursus placerat tincidunt Donec porttitor diam a dictum porta enim mi tempus nisl gravida egestas ligula felis ac magna Nulla et quam mattis ante ornare porta et ac augue Ut imperdiet venenatis";
+    //var wordsArray = words.split(" ");
+
+
+    return function (callback) {
+        api.getQuestions(function (data) {
+            console.log(data)
+
+            var sentenceArray = [];
+
+            _.each(data.d, function (item, i) {
+                sentenceArray.push(
+                        {
+                            id: i,
+                            question: item.QuestionText,
+                            answer: -1,
+                            disabled: true
+                        }
+                    );
+            })
+
+            sentenceArray.dataToSubmit = function () {
+                var newData = [];
+                for (var i = 0; i < this.length; i++) {
+                    newData.push(
+                        [this[i].id, this[i].answer]
+                    );
+                };
+                    return newData;
+                };
+
+            callback(sentenceArray);
+        });
+    }
 
     var sentenceArray = [];
     for (var i = 0; i < 50; i++) {
@@ -92,11 +124,11 @@ angular.module('app.services', [])
         }
 
         var arcTween = function (a) {
-          var i = d3.interpolate(this._current, a);
-          this._current = i(0);
-          return function(t) {
-            return arc(i(t));
-          };
+            var i = d3.interpolate(this._current, a);
+            this._current = i(0);
+            return function (t) {
+                return arc(i(t));
+            };
         }
 
         var init = function (width, height, el, data) {
@@ -117,20 +149,20 @@ angular.module('app.services', [])
                  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
             !containsANonZero(data) && (data[0] = 1);
-            
+
             path = svg.selectAll("path")
                 .data(pie(data))
                 .enter().append("path")
                 .attr("fill", function (d, i) { return color(i); })
                 .attr("d", arc)
-                .each(function(d) { this._current = d; });;
+                .each(function (d) { this._current = d; }); ;
 
         }
 
         var update = function (data) {
-            
+
             !containsANonZero(data) && (data[0] = 1);
-            
+
             path = path.data(pie(data));
             path.transition().duration(500).attrTween("d", arcTween);
         }
@@ -149,30 +181,23 @@ angular.module('app.services', [])
 
 .factory('bigDataService', function ($http) {
 
-    return function (callback) { 
+    return function (callback) {
         return $http.get('/angular-rig/resource/data.json.txt').success(callback)
     }
 
 })
 
-.factory('api', function($http){
-
-    var session = {
-        username: '',
-        loggedIn: false
-    };
+.factory('api', function ($http) {
 
     return {
-        doLogin: function(username, password, callback){
-                    $http.post("/WebServices/UserService.svc/ajax/Login", {"username":  username , "password":  password })
-                          .success(function(data){
-                            session.username = username;
-                            session.loggedIn = true;
-                            callback(data);   
-                          });  
+        doLogin: function (username, password, callback) {
+            $http.post("/WebServices/UserService.svc/ajax/Login", { "username": username, "password": password }).success(callback);
         },
-        getSession: function() { 
-            return session;
+        getContact: function (callback) {
+            $http.post("/WebServices/UserService.svc/ajax/GetUserDetails").success(callback);
+        },
+        getQuestions: function (callback) {
+            $http.post("/WebServices/QuestionService.svc/ajax/GetNextQuestions", { "questionServiceRequest": { "Username": "stefapi", "QuestionProviderID": "AspectQuestionProvider"} }).success(callback);
         }
     }
 })
