@@ -49,9 +49,13 @@ angular.module('app.directives', [])
     return {
         restrict: 'E',
         replace: true,
-        scope: { question: "=ccQuestion", submit: "=ccSubmitAnswerFn" },
+        scope: { question: "=ccQuestion", submit: "=ccSubmitAnswerFn", answers: "=ccAnswers" },
         templateUrl: 'templates/questionButtons.html',
         link: function (scope, element, attrs) {
+
+            var colors = ['danger', 'warning', 'info', 'primary', 'success'];
+
+
 
             scope.buttons = [
                 { text: 'Dislike very much', class: 'danger' },

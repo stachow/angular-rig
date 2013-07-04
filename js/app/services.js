@@ -1,20 +1,27 @@
 angular.module('app.services', [])
 
-.factory('_', function(){
-   return window._; 
+.factory('_', function () {
+    return window._;
 })
 
 .factory('api', function ($http) {
 
     return {
         doLogin: function (username, password, callback) {
-            $http.post("/WebServices/UserService.svc/ajax/Login", { "username": username, "password": password }).success(callback);
+            callback();
+            //$http.post("/WebServices/UserService.svc/ajax/Login", { "username": username, "password": password }).success(callback);
         },
         getContact: function (callback) {
-            $http.post("/WebServices/UserService.svc/ajax/GetUserDetails").success(callback);
+            callback({
+                d: {
+                    Firstname: "stef",
+                    Lastname: "stachow"
+                }
+            });
+            //$http.post("/WebServices/UserService.svc/ajax/GetUserDetails").success(callback);
         },
         getQuestions: function (callback) {
-            $http.post("/WebServices/QuestionService.svc/ajax/GetNextQuestions", { "questionServiceRequest": { "Username": "stefapi", "QuestionProviderID": "AspectQuestionProvider"} }).success(callback);
+            $http.get("http://dev.cascaid.co.uk/API/api/QuestionSet/1?subSectionId=1&textTypeId=1").success(callback);
         }
     }
 })
@@ -24,20 +31,25 @@ angular.module('app.services', [])
     return function (callback) {
         api.getQuestions(function (data) {
 
-            var sentenceArray = [];
 
-            _.each(data.d, function (item, i) {
-                sentenceArray.push(
+
+            var result = {
+                sentenceArray: [],
+                answerArray: _.sortBy(data.ResponseTypes['3'].ResponseOptions, function(opt) {return opt.Sequence})
+            };
+
+            _.each(data.Questions, function (item, i) {
+                result.sentenceArray.push(
                         {
                             id: i,
-                            question: item.QuestionText,
+                            question: item.Text,
                             answer: -1,
                             disabled: true
                         }
                     );
             })
 
-            sentenceArray.dataToSubmit = function () {
+            result.sentenceArray.dataToSubmit = function () {
                 var newData = [];
                 for (var i = 0; i < this.length; i++) {
                     newData.push([this[i].id, this[i].answer]);
@@ -45,7 +57,7 @@ angular.module('app.services', [])
                 return newData;
             };
 
-            callback(sentenceArray);
+            callback(result);
         });
     }
 })
