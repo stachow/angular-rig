@@ -37,7 +37,7 @@ angular.module('app.directives', [])
             scope.vals = [];
             scope.$watch(attrs.ccData, function (data) {
                 _.each(_.range(5), function (i) {
-                    var thisAnswerTypeCount = _.filter(data, function (question) { return question[1] === i }).length;
+                    var thisAnswerTypeCount = _.filter(data, function (question) { return question[2] === i }).length;
                     scope.vals[i] = (thisAnswerTypeCount * 2) + "%";
                 });
             }, true);
@@ -55,18 +55,18 @@ angular.module('app.directives', [])
 
             var colors = ['danger', 'warning', 'info', 'primary', 'success'];
 
+            scope.buttons = [];
+            _.each(colors, function(color, index) { 
+                scope.buttons.push({
+                    text: scope.answers[index].Text, 
+                    class: color,
+                    id: scope.answers[index].Id,
+                    index: index
+                    }) 
+                })
 
-
-            scope.buttons = [
-                { text: 'Dislike very much', class: 'danger' },
-                { text: 'Dislike', class: 'warning' },
-                { text: 'Does not matter', class: 'info' },
-                { text: 'Like', class: 'primary' },
-                { text: 'Like very much', class: 'success' }
-            ];
-
-            scope.localClick = function (index) {
-                !scope.question.disabled && scope.submit(scope.question.id, index);
+            scope.localClick = function (id, index) {
+                !scope.question.disabled && scope.submit(scope.question.index, id, index);
             };
         }
     }
@@ -83,7 +83,7 @@ angular.module('app.directives', [])
             scope.$watch(attrs.ccData, function (data) {
                 var vals = [];
                 _.each(_.range(6), function (i) {
-                    var thisCount = _.filter(data, function (question) { return question[1] === i - 1 }).length
+                    var thisCount = _.filter(data, function (question) { return question[2] === i - 1 }).length
                     vals.push(thisCount);
                 });
                 pieRef.update(vals);

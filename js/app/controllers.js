@@ -17,44 +17,47 @@ function LoginCtrl($scope, api){
     }
 }
 
-function QuestionCtrl($scope, messageService, dataService, _) {
+function QuestionCtrl($scope, messageService, dataService, _, $window) {
+
+    var isMobile = ($window.innerWidth <= 767)
 
     $scope.settings = {
-        scrollEvery:    3,
-        scrollLength:   450
+        scrollEvery:    isMobile ? 1 : 3,
+        scrollLength:   isMobile ? 484 : 450
     };
 
-    $scope.doScroll = function (id) {
-        if (!((id + 1) % $scope.settings.scrollEvery)) {
+    $scope.doScroll = function (index) {
+        if (!((index + 1) % $scope.settings.scrollEvery)) {
             $scope.scrollTop += $scope.settings.scrollLength;
             //$scope.shuffle();
         };
     };
 
-    $scope.handleDisabled = function (idBeingSubmitted) {
-        $scope.data[idBeingSubmitted].disabled = true;
-        if (idBeingSubmitted < $scope.data.length - 1) { 
-            $scope.data[idBeingSubmitted + 1].disabled = false;
+    $scope.handleDisabled = function (indexBeingSubmitted) {
+        $scope.data[indexBeingSubmitted].disabled = true;
+        if (indexBeingSubmitted < $scope.data.length - 1) { 
+            $scope.data[indexBeingSubmitted + 1].disabled = false;
         }
     };
 
-    $scope.submitAnswer = function (id, answer) {
-        $scope.data[id].answer = answer;
-        $scope.handleDisabled(id);
-        $scope.doScroll(id);
+    $scope.submitAnswer = function (index, answerId, answerIndex) {
+        $scope.data[index].answerId = answerId;
+        $scope.data[index].answerIndex = answerIndex;
+
+        $scope.handleDisabled(index);
+        $scope.doScroll(index);
         messageService.send($scope.data.dataToSubmit());
     };
 
     $scope.reset = function () {
 
         dataService(function (data) {
-
-            console.log(data);
             $scope.answers = data.answerArray;
             $scope.data = data.sentenceArray;
             _.each($scope.data, function (question) {
                 question.disabled = true;
                 question.answer = -1;
+                question.answerIndex = -1;
             });
             $scope.data[0].disabled = false;
             $scope.scrollTop = 0;
@@ -101,7 +104,7 @@ function QuestionCtrl($scope, messageService, dataService, _) {
     //}
 }
 
-function AnswersCtrl($scope, messageService, _) {
+function AnswersCtrl($scope, messageService, _, dataService) {
     
     $scope.buttonClasses = ['btn-danger', 'btn-warning', 'btn-info', 'btn-primary', 'btn-success'];
     $scope.data = [];
@@ -112,10 +115,16 @@ function AnswersCtrl($scope, messageService, _) {
             $scope.$apply(function () {
                 $scope.data = msg;
                 $scope.answeredData = _.filter($scope.data, function (item) { return item[1] >= 0 });
+                console.log($scope.answeredData);
             })
         };
     };
-        
-    messageService.listen($scope.receiveData);
-    messageService.retrieveLatest($scope.receiveData)
+
+    dataService(function (data) {
+        $scope.answers = data.answerArray;
+        console.log($scope.answers);
+        messageService.listen($scope.receiveData);
+        messageService.retrieveLatest($scope.receiveData)
+    })        
+    
 }

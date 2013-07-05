@@ -11,7 +11,7 @@
 
     <div class="span9">
         <span ng-repeat="question in answeredData">
-            <span class="btn btn-tiny" ng-class="buttonClasses[question[1]]">{{question[0] + 1}}</span>
+            <span class="btn btn-tiny" ng-class="buttonClasses[question[2]]">{{$index + 1}}</span>
         </span>
     </div>
 

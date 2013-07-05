@@ -31,19 +31,20 @@ angular.module('app.services', [])
     return function (callback) {
         api.getQuestions(function (data) {
 
-
-
             var result = {
                 sentenceArray: [],
-                answerArray: _.sortBy(data.ResponseTypes['3'].ResponseOptions, function(opt) {return opt.Sequence})
+                answerArray: _.sortBy(data.ResponseTypes['3'].ResponseOptions, function (opt) { return opt.Sequence })
             };
-
+            console.log(data);
             _.each(data.Questions, function (item, i) {
                 result.sentenceArray.push(
                         {
-                            id: i,
-                            question: item.Text,
-                            answer: -1,
+                            index: i,
+                            questionId: item.Id,
+                            questionText: item.Text,
+                            helpText: item.HelpText,
+                            answerIndex: -1,
+                            answerId: -1,
                             disabled: true
                         }
                     );
@@ -52,7 +53,7 @@ angular.module('app.services', [])
             result.sentenceArray.dataToSubmit = function () {
                 var newData = [];
                 for (var i = 0; i < this.length; i++) {
-                    newData.push([this[i].id, this[i].answer]);
+                    newData.push([this[i].questionId, this[i].answerId, this[i].answerIndex]);
                 };
                 return newData;
             };

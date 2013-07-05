@@ -1,11 +1,11 @@
 <div class="row demo-row">
-    <div class="span2" ng-repeat="button in buttons">
+    <div class="span2 buttonSpan" ng-repeat="button in buttons">
         <a  href="" class="btn btn-large btn-block btn-tall" 
-            ng-class="(!question.disabled || question.answer == ($index)) && ('btn-' + button.class) || ''"    
+            ng-class="(!question.disabled || question.answerId == (button.id)) && ('btn-' + button.class) || ''"    
             ng-disabled="question.disabled" 
-            ng-click="localClick($index)">
+            ng-click="localClick(button.id, button.index)">
             <span class="fui-checkround-24"></span>
-            <br /><br />{{button.text}}
+            <div class="buttonText">{{button.text}}</div>
         </a>
     </div>
 </div>

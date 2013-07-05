@@ -1,6 +1,6 @@
 <h1>Aspects Rig</h1>
 
-<p class="hidden-phone">
+<p>
     <a cc-href-name="home">Home</a> | <a cc-href-name="answers" target="_blank">Adviser view (new tab)</a>
 </p>                
 
@@ -9,7 +9,7 @@
     <div class="span10">
         <div cc-scroll="scrollTop" class="question-window">
             <div ng-repeat="question in data">
-                <h4><span class="aspectTitle">{{question.index + 1}}) {{question.questionText}} &nbsp;&nbsp;&nbsp;</span><small class="muted helpLink"><span tooltip-html-unsafe="{{question.helpText}}" tooltip-placement="mouse">more...</span></small></h4>
+                <h4>{{question.index + 1}}) {{question.questionText}} &nbsp;&nbsp;&nbsp;<small class="muted"><span tooltip="{{question.helpText}}" tooltip-placement="bottom">more...</span></small></h4>
                 <cc-question-buttons cc-question="question" cc-answers="answers" cc-submit-answer-fn="submitAnswer"></cc-question-buttons>
             </div>
         </div>
